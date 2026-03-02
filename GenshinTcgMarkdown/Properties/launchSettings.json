@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenshinTcgMarkdown": {
+      "commandName": "Project",
+      "workingDirectory": "$(ProjectDir)/.."
+    }
+  }
+}

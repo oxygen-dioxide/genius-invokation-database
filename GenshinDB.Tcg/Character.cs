@@ -2,14 +2,13 @@ using System.Linq;
 
 namespace GenshinDB.Tcg
 {
-    public class Character
+    public class Character: TcgObject
     {
-        public int id;
+        public bool obtainable;
         public string name;
+        public string[] tags;
+        public Skill[] skills;
         public int hp;
         public int maxenergy;
-        public string[] tags;
-        public string source;
-        public Skill[] skills;
     }
 }

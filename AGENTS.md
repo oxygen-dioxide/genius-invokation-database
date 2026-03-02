@@ -5,6 +5,10 @@
 - GenshinDB.Tcg：卡牌数据结构
 - GenshinTcgMarkdown：解析数据，输出为markdown的业务逻辑
 
+这个项目只有我自己用。在这个项目的C#代码中，假定data和markdown文件夹均位于当前命令行所处文件夹下。不要寻找data文件夹，也不要适配用户可能的错误路径
+
+调试代码时，请在这个git仓库的根目录（sln所处文件夹）下运行
+
 ## 目标功能
 从`./data`文件夹中加载各版本七圣召唤卡牌数据。将可获得的卡牌（`obtainable=true`）转换为markdown，写入`./markdown/<类型>/<卡牌id>/<版本号>`中，其中类型为`characters`或`action_cards`。
 

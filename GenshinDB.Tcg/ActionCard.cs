@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 namespace GenshinDB.Tcg
 {
-    public class ActionCard
+    public class ActionCard : TcgObject
     {
-        public int id;
         public bool obtainable;
         public string name;
+        public string type;
         public string[] tags;
         public int? relatedCharacterId;
         public List<Cost> playCost;
