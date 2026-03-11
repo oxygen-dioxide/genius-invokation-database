@@ -264,7 +264,7 @@
     {
       "id": 116081,
       "sinceVersion": "v4.8.0",
-      "obtainable": true,
+      "obtainable": false,
       "type": "GCG_CARD_EVENT",
       "name": "裂晶弹片",
       "englishName": "Crystal Shrapnel",

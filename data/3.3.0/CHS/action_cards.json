@@ -186,7 +186,7 @@
     {
       "id": 114031,
       "sinceVersion": "v3.3.0",
-      "obtainable": true,
+      "obtainable": false,
       "type": "GCG_CARD_EVENT",
       "name": "雷楔",
       "englishName": "Lightning Stiletto",
