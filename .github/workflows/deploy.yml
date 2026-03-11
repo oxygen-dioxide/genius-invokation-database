@@ -1,0 +1,45 @@
+name: Custom Deploy Workflow
+
+on:
+  push:
+    branches: ["main"] # 监听 main 分支的推送
+  workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # --- 第一步：运行你的转换程序 ---
+      - name: Set up dotnet 7
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Run data conversion
+        run: |
+          dotnet run --project GenshinTcgMarkdown
+
+      # --- 第二步：使用 Jekyll 构建 ---
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./markdown      # 你的 Jekyll 站点根目录
+          destination: ./_site
+
+      # --- 第三步：上传并部署 ---
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
