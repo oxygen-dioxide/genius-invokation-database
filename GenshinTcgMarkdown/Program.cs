@@ -99,25 +99,55 @@ Console.WriteLine("Processing character cards...");
 foreach (var characterId in obtainableCharacters.Select(c => c.id))
 {
     var prevMarkdown = "";
+    var stringsToWrite = new string[allVersionData.Count];
+    var changedVersions = new List<string>();
+    
     for (int i = 0; i < allVersionData.Count; i++)
     {
         var version = allVersionData[i];
         var prevVersion = i > 0 ? allVersionData[i - 1] : null;
         if(!version.IdToTcgObject.ContainsKey(characterId)) continue;
 
+        var character = version.IdToTcgObject[characterId] as Character;
+        if (character == null) continue;
         var currMarkdown = CharacterToMarkdown.Convert(version, characterId);
         bool hasChanged = currMarkdown != prevMarkdown;
         if (hasChanged)
         {
+            string header = 
+                "---\n" +
+                $"title: {character.name} {characterId}@{version.Version}\n" +
+                "---\n\n";
+            stringsToWrite[i] = header + currMarkdown;
+            changedVersions.Add(version.Version);
+        }
+        else
+        {
+            stringsToWrite[i] = 
+                "---\n" + 
+                $"redirect_to: /characters/{characterId}/{changedVersions.LastOrDefault()}\n"+
+                "---\n\n"; // No change, no need to write
+        }
+        prevMarkdown = currMarkdown;
+    }
+    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}](% link {v}.md %)"))}";
+    for (int i = 0; i < stringsToWrite.Length; i++)
+    {
+        if (stringsToWrite[i] != null)
+        {
+            if(!stringsToWrite[i].Contains("redirect_to:"))
+            {
+                stringsToWrite[i] += footer;
+            }
+            stringsToWrite[i] += footer;
             var folder = Path.Combine(outputFolder, "characters", characterId.ToString());
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
             };
-            var filePath = Path.Combine(folder, $"{version.Version}.md");
-            File.WriteAllText(filePath, currMarkdown);
+            var filePath = Path.Combine(folder, $"{allVersionData[i].Version}.md");
+            File.WriteAllText(filePath, stringsToWrite[i]);
         }
-        prevMarkdown = currMarkdown;
     }
 }
 
@@ -128,22 +158,53 @@ Console.WriteLine("Processing action cards...");
 foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
 {
     var prevMarkdown = "";
+    var stringsToWrite = new string[allVersionData.Count];
+    var changedVersions = new List<string>();
+
     for (int i = 0; i < allVersionData.Count; i++)
     {
         var version = allVersionData[i];
         var prevVersion = i > 0 ? allVersionData[i - 1] : null;
         if(!version.IdToTcgObject.ContainsKey(actionCardId)) continue;
+
+        var actionCard = version.IdToTcgObject[actionCardId] as ActionCard;
+        if (actionCard == null) continue;
         var currMarkdown = ActionCardToMarkdown.Convert(version, actionCardId);
         bool hasChanged = currMarkdown != prevMarkdown;
         if (hasChanged)
         {
+            string header = 
+                "---\n" +
+                $"title: {actionCard.name} {actionCardId}@{version.Version}\n" +
+                "---\n\n";
+            stringsToWrite[i] = header + currMarkdown;
+            changedVersions.Add(version.Version);
+        }
+        else
+        {
+            stringsToWrite[i] = 
+                "---\n" + 
+                $"redirect_to: /action_cards/{actionCardId}/{changedVersions.LastOrDefault()}\n"+
+                "---\n\n"; // No change, no need to write
+        }
+        prevMarkdown = currMarkdown;
+    }
+    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}](% link {v}.md %)"))}";
+    for (int i = 0; i < stringsToWrite.Length; i++)
+    {
+        if (stringsToWrite[i] != null)
+        {
+            if(!stringsToWrite[i].Contains("redirect_to:"))
+            {
+                stringsToWrite[i] += footer;
+            }
             var folder = Path.Combine(outputFolder, "action_cards", actionCardId.ToString());
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
             };
-            var filePath = Path.Combine(folder, $"{version.Version}.md");
-            File.WriteAllText(filePath, currMarkdown);
+            var filePath = Path.Combine(folder, $"{allVersionData[i].Version}.md");
+            File.WriteAllText(filePath, stringsToWrite[i]);
         }
     }
 }
