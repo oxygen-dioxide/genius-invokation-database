@@ -1,13 +1,6 @@
 ﻿using GenshinDB.Tcg;
 using Newtonsoft.Json;
 using GenshinTcgMarkdown;
-using System.Text;
-using System;
-using System.Diagnostics.SymbolStore;
-using System.Text.Json.Serialization;
-using System.Reflection.PortableExecutable;
-using System.Reflection.Metadata;
-using System.IO;
 
 var inputFolder = "data";
 var outputFolder = "markdown";
@@ -83,11 +76,4 @@ foreach (string version in versions)
     {
         Console.WriteLine($"  Error processing version {version}: {ex.Message}");
     }
-}
-
-var latestVersion = allVersionData.LastOrDefault();
-if (latestVersion != null)
-{
-    var markdown = CharacterToMarkdown.Convert(latestVersion, 1101);
-    Console.WriteLine(markdown);
 }

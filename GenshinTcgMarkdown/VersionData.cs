@@ -15,10 +15,20 @@ namespace GenshinTcgMarkdown
             foreach (var character in Characters)
             {
                 IdToTcgObject[character.id] = character;
+                foreach (var skill in character.skills)
+                {
+                    if (skill.hidden) continue;
+                    IdToTcgObject[skill.id] = skill;
+                }
             }
             foreach (var entity in Entities)
             {
                 IdToTcgObject[entity.id] = entity;
+                foreach (var skill in entity.skills)
+                {
+                    if (skill.hidden) continue;
+                    IdToTcgObject[skill.id] = skill;
+                }
             }
             foreach (var actionCard in ActionCards)
             {

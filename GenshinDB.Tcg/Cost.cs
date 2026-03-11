@@ -2,7 +2,7 @@ namespace GenshinDB.Tcg
 {
     public class Cost
     {
-        public string costtype;
+        public string type;
         public int count;
     }
 }

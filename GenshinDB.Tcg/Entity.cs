@@ -9,6 +9,7 @@ namespace GenshinDB.Tcg
     {
         public string type;
         public string name;
+        public List<Skill> skills;
         public string rawDescription;
         public string description;
         public string category;

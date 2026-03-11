@@ -1,8 +1,7 @@
 namespace GenshinDB.Tcg
 {
-    public class Skill
+    public class Skill : TcgObject
     {
-        public int id;
         public string name;
         public string type;
         public string rawDescription;
