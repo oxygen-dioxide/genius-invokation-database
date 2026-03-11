@@ -99,11 +99,11 @@ Console.WriteLine("Processing character cards...");
 string footer(List<string> changedVersions, string currentVersion)
 {
     if (changedVersions.Count <= 1) return "";
-    return "\nversion history: " 
+    return "\n版本历史：" 
     + string.Join(
         ", ", 
         changedVersions.Select(
-            v => v == currentVersion ? $"**{v}**" : $"[{v}]({v}.html)"
+            v => v == currentVersion ? $"**{v}**" : $"[{v}]({v}.md)"
         )
     ) + "\n";
 }

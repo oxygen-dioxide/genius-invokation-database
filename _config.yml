@@ -1,2 +1,3 @@
 plugins:
+  - jekyll-relative-links
   - jekyll-redirect-from
