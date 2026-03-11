@@ -103,7 +103,7 @@ string footer(List<string> changedVersions, string currentVersion)
     + string.Join(
         ", ", 
         changedVersions.Select(
-            v => v == currentVersion ? $"**{v}**" : $"[{v}]({{% link {v}.md %}})"
+            v => v == currentVersion ? $"**{v}**" : $"[{v}]({v}.html)"
         )
     ) + "\n";
 }
