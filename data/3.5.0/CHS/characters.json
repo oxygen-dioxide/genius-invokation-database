@@ -76,7 +76,7 @@
           "englishName": "Celestial Shower",
           "type": "GCG_SKILL_TAG_Q",
           "rawDescription": "造成$[D__KEY__DAMAGE]点$[D__KEY__ELEMENT]，对所有敌方后台角色造成<color=#FFFFFFFF>1点$[K5]</color>，召唤<color=#FFFFFFFF>$[C111011]</color>。",
-          "description": "造成2点冰元素伤害，对所有敌方后台角色造成1点穿透伤害，召唤冰灵珠。",
+          "description": "造成1点冰元素伤害，对所有敌方后台角色造成1点穿透伤害，召唤冰灵珠。",
           "playCost": [
             { "type": "GCG_COST_DICE_CRYO", "count": 3 },
             { "type": "GCG_COST_ENERGY", "count": 2 }

@@ -1,6 +1,8 @@
 ﻿using GenshinDB.Tcg;
 using Newtonsoft.Json;
 using GenshinTcgMarkdown;
+using System.IO;
+using System.Linq;
 
 var inputFolder = "data";
 var outputFolder = "markdown";
@@ -77,3 +79,74 @@ foreach (string version in versions)
         Console.WriteLine($"  Error processing version {version}: {ex.Message}");
     }
 }
+
+if (allVersionData.Count == 0)
+{
+    Console.WriteLine("No version data loaded.");
+    return;
+}
+
+var latestVersion = allVersionData.Last();
+var obtainableCharacters = latestVersion.Characters.Where(c => c.obtainable).ToList();
+var obtainableActionCards = latestVersion.ActionCards.Where(a => a.obtainable).ToList();
+
+Console.WriteLine($"Latest version: {latestVersion.Version}");
+Console.WriteLine($"Obtainable characters: {obtainableCharacters.Count}");
+Console.WriteLine($"Obtainable action cards: {obtainableActionCards.Count}");
+
+Console.WriteLine("Processing character cards...");
+
+foreach (var characterId in obtainableCharacters.Select(c => c.id))
+{
+    var prevMarkdown = "";
+    for (int i = 0; i < allVersionData.Count; i++)
+    {
+        var version = allVersionData[i];
+        var prevVersion = i > 0 ? allVersionData[i - 1] : null;
+        if(!version.IdToTcgObject.ContainsKey(characterId)) continue;
+
+        var currMarkdown = CharacterToMarkdown.Convert(version, characterId);
+        bool hasChanged = currMarkdown != prevMarkdown;
+        if (hasChanged)
+        {
+            var folder = Path.Combine(outputFolder, "characters", characterId.ToString());
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            };
+            var filePath = Path.Combine(folder, $"{version.Version}.md");
+            File.WriteAllText(filePath, currMarkdown);
+        }
+        prevMarkdown = currMarkdown;
+    }
+}
+
+Console.WriteLine($"Generated markdown for {obtainableCharacters.Count} characters");
+
+Console.WriteLine("Processing action cards...");
+
+foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
+{
+    var prevMarkdown = "";
+    for (int i = 0; i < allVersionData.Count; i++)
+    {
+        var version = allVersionData[i];
+        var prevVersion = i > 0 ? allVersionData[i - 1] : null;
+        if(!version.IdToTcgObject.ContainsKey(actionCardId)) continue;
+        var currMarkdown = ActionCardToMarkdown.Convert(version, actionCardId);
+        bool hasChanged = currMarkdown != prevMarkdown;
+        if (hasChanged)
+        {
+            var folder = Path.Combine(outputFolder, "action_cards", actionCardId.ToString());
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            };
+            var filePath = Path.Combine(folder, $"{version.Version}.md");
+            File.WriteAllText(filePath, currMarkdown);
+        }
+    }
+}
+
+Console.WriteLine($"Generated markdown for {obtainableActionCards.Count} action cards");
+Console.WriteLine("Done!");
