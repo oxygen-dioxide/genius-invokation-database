@@ -130,7 +130,7 @@ foreach (var characterId in obtainableCharacters.Select(c => c.id))
         }
         prevMarkdown = currMarkdown;
     }
-    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}](% link {v}.md %)"))}";
+    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}]({{% link {v}.md %}})"))}";
     for (int i = 0; i < stringsToWrite.Length; i++)
     {
         if (stringsToWrite[i] != null)
@@ -139,7 +139,6 @@ foreach (var characterId in obtainableCharacters.Select(c => c.id))
             {
                 stringsToWrite[i] += footer;
             }
-            stringsToWrite[i] += footer;
             var folder = Path.Combine(outputFolder, "characters", characterId.ToString());
             if (!Directory.Exists(folder))
             {
@@ -189,7 +188,7 @@ foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
         }
         prevMarkdown = currMarkdown;
     }
-    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}](% link {v}.md %)"))}";
+    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}]({{% link {v}.md %}})"))}";
     for (int i = 0; i < stringsToWrite.Length; i++)
     {
         if (stringsToWrite[i] != null)
