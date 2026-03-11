@@ -96,6 +96,18 @@ Console.WriteLine($"Obtainable action cards: {obtainableActionCards.Count}");
 
 Console.WriteLine("Processing character cards...");
 
+string footer(List<string> changedVersions, string currentVersion)
+{
+    if (changedVersions.Count <= 1) return "";
+    return "\nversion history: " 
+    + string.Join(
+        ", ", 
+        changedVersions.Select(
+            v => v == currentVersion ? $"**{v}**" : $"[{v}]({{% link {v}.md %}})"
+        )
+    ) + "\n";
+}
+
 foreach (var characterId in obtainableCharacters.Select(c => c.id))
 {
     var prevMarkdown = "";
@@ -130,14 +142,14 @@ foreach (var characterId in obtainableCharacters.Select(c => c.id))
         }
         prevMarkdown = currMarkdown;
     }
-    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}]({{% link {v}.md %}})"))}";
+    
     for (int i = 0; i < stringsToWrite.Length; i++)
     {
         if (stringsToWrite[i] != null)
         {
             if(!stringsToWrite[i].Contains("redirect_to:"))
             {
-                stringsToWrite[i] += footer;
+                stringsToWrite[i] += footer(changedVersions, allVersionData[i].Version);
             }
             var folder = Path.Combine(outputFolder, "characters", characterId.ToString());
             if (!Directory.Exists(folder))
@@ -188,14 +200,14 @@ foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
         }
         prevMarkdown = currMarkdown;
     }
-    var footer = $"\nversion history: {string.Join(", ", changedVersions.Select(v => $"[{v}]({{% link {v}.md %}})"))}";
+    
     for (int i = 0; i < stringsToWrite.Length; i++)
     {
         if (stringsToWrite[i] != null)
         {
             if(!stringsToWrite[i].Contains("redirect_to:"))
             {
-                stringsToWrite[i] += footer;
+                stringsToWrite[i] += footer(changedVersions, allVersionData[i].Version);
             }
             var folder = Path.Combine(outputFolder, "action_cards", actionCardId.ToString());
             if (!Directory.Exists(folder))
