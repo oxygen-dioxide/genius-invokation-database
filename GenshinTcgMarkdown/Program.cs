@@ -227,13 +227,13 @@ Console.WriteLine("Generating index.md...");
 var indexContent = "## 角色牌\n";
 foreach (var character in obtainableCharacters.OrderBy(c => c.id))
 {
-    indexContent += $"- [{character.name}]({{ site.baseurl }}{{% link characters/{character.id}/{latestVersion.Version}.md %}})\n";
+    indexContent += $"- [{character.name}](characters/{character.id}/{latestVersion.Version}.md)\n";
 }
 
 indexContent += "\n## 行动牌\n";
 foreach (var actionCard in obtainableActionCards.OrderBy(a => a.id))
 {
-    indexContent += $"- [{actionCard.name}]({{ site.baseurl }}{{% link action_cards/{actionCard.id}/{latestVersion.Version}.md %}})\n";
+    indexContent += $"- [{actionCard.name}](action_cards/{actionCard.id}/{latestVersion.Version}.md)\n";
 }
 
 File.WriteAllText(Path.Combine(outputFolder, "index.md"), indexContent);

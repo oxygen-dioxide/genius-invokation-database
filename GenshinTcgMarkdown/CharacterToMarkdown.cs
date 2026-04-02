@@ -61,16 +61,18 @@ namespace GenshinTcgMarkdown
                 }
                 var costStr = string.Join("", costParts);
 
-                sb.AppendLine($"> **{skill.name}** {skillType} {costStr}");
-                sb.AppendLine($"> <br>{skill.description.Replace("\n", "<br>")}");
+                sb.AppendLine($"> **{skill.name}** {skillType} {costStr}<br>");
+                sb.AppendLine($"> {skill.description.Replace("\n", "<br>")}");
 
                 var derivatives = ExtractDerivatives(versionData, skill.rawDescription);
                 foreach (var derivative in derivatives)
                 {
                     var entityType = TcgConstants.Map.TryGetValue(derivative.type, out var dt) ? dt : derivative.type;
-                    sb.AppendLine($"> > **{derivative.name}** {entityType}");
+                    sb.AppendLine($"> > **{derivative.name}** {entityType}<br>");
                     sb.AppendLine($"> > {derivative.description.Replace("\n", "<br>")}");
+                    sb.AppendLine($">");
                 }
+                sb.AppendLine("");
             }
 
             if (versionData.CharacterTalent.TryGetValue(characterId, out var talents) && talents.Count > 0)
@@ -103,7 +105,7 @@ namespace GenshinTcgMarkdown
                     }
                     var costStr = string.Join("", costParts);
 
-                    sb.AppendLine($"> **{talent.name}** {string.Join(" ", talentTags)} {costStr}");
+                    sb.AppendLine($"> **{talent.name}** {string.Join(" ", talentTags)} {costStr}<br>");
                     sb.AppendLine($"> {talent.description.Replace("\n", "<br>")}");
                 }
             }
