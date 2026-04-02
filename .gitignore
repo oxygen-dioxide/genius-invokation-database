@@ -398,5 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # My custom files
-markdown/
+/markdown/**/*.md
 genshin-db/
