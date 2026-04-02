@@ -1,3 +1,6 @@
+baseurl: "/genius-invokation-database"
+url: "https://oxygen-dioxide.github.io"
+
 plugins:
   - jekyll-relative-links
   - jekyll-redirect-from
