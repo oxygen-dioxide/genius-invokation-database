@@ -236,5 +236,5 @@ foreach (var actionCard in obtainableActionCards.OrderBy(a => a.id))
     indexContent += $"- [{actionCard.name}]({{% link action_cards/{actionCard.id}/{latestVersion.Version}.md %}})\n";
 }
 
-File.WriteAllText(Path.Combine(outputFolder, "Index.md"), indexContent);
+File.WriteAllText(Path.Combine(outputFolder, "index.md"), indexContent);
 Console.WriteLine("Done!");
