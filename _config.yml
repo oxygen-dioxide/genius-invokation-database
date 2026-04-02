@@ -1,3 +1,7 @@
 plugins:
   - jekyll-relative-links
   - jekyll-redirect-from
+
+whitelist:
+  - jekyll-relative-links
+  - jekyll-redirect-from
