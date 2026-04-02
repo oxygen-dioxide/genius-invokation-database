@@ -221,4 +221,20 @@ foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
 }
 
 Console.WriteLine($"Generated markdown for {obtainableActionCards.Count} action cards");
+
+Console.WriteLine("Generating Index.md...");
+
+var indexContent = "== 角色牌 ==\n";
+foreach (var character in obtainableCharacters.OrderBy(c => c.id))
+{
+    indexContent += $"- [{character.name}]({{% link characters/{character.id}/{latestVersion.Version}.md %}})\n";
+}
+
+indexContent += "\n== 行动牌 ==\n";
+foreach (var actionCard in obtainableActionCards.OrderBy(a => a.id))
+{
+    indexContent += $"- [{actionCard.name}]({{% link action_cards/{actionCard.id}/{latestVersion.Version}.md %}})\n";
+}
+
+File.WriteAllText(Path.Combine(outputFolder, "Index.md"), indexContent);
 Console.WriteLine("Done!");
