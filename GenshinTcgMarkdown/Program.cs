@@ -224,7 +224,7 @@ Console.WriteLine($"Generated markdown for {obtainableActionCards.Count} action 
 
 Console.WriteLine("Generating index.md...");
 
-var indexContent = "## 角色牌\n";
+var indexContent = "# 主页\n## 角色牌\n";
 foreach (var character in obtainableCharacters.OrderBy(c => c.id))
 {
     indexContent += $"- [{character.name}](characters/{character.id}/{latestVersion.Version}.md)\n";
