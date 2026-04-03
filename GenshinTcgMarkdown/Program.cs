@@ -35,6 +35,7 @@ foreach (string version in versions)
     string charactersPath = Path.Combine(versionFolder, "characters.json");
     string entitiesPath = Path.Combine(versionFolder, "entities.json");
     string actionCardsPath = Path.Combine(versionFolder, "action_cards.json");
+    string keywordsPath = Path.Combine(versionFolder, "keywords.json");
     
     if (!File.Exists(charactersPath) || !File.Exists(entitiesPath) || !File.Exists(actionCardsPath))
     {
@@ -49,12 +50,13 @@ foreach (string version in versions)
         var charactersJson = File.ReadAllText(charactersPath);
         var entitiesJson = File.ReadAllText(entitiesPath);
         var actionCardsJson = File.ReadAllText(actionCardsPath);
+        var keywordsJson = File.ReadAllText(keywordsPath);
         
         var characters = JsonConvert.DeserializeObject<CharactersJson>(charactersJson)?.data;
         var entities = JsonConvert.DeserializeObject<EntitiesJson>(entitiesJson)?.data;
         var actionCards = JsonConvert.DeserializeObject<ActionCardsJson>(actionCardsJson)?.data;
-        
-        if (characters == null || entities == null || actionCards == null)
+        var keywords = JsonConvert.DeserializeObject<KeywordsJson>(keywordsJson)?.data;
+        if (characters == null || entities == null || actionCards == null || keywords == null)
         {
             Console.WriteLine($"  Failed to deserialize data.");
             continue;
@@ -67,7 +69,8 @@ foreach (string version in versions)
             Version = version,
             Characters = characters,
             Entities = entities,
-            ActionCards = actionCards
+            ActionCards = actionCards,
+            Keywords = keywords
         };
         
         versionData.BuildIdDictionary();

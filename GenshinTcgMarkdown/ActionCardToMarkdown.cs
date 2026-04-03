@@ -26,14 +26,10 @@ namespace GenshinTcgMarkdown
             var infoParts = new List<string>();
             var cardType = TcgConstants.Map.TryGetValue(actionCard.type, out var ct) ? ct : actionCard.type;
             infoParts.Add(cardType);
-
-            foreach (var tag in actionCard.tags)
+            var tagStr = Util.TagStr(actionCard.tags);
+            if (!string.IsNullOrEmpty(tagStr))
             {
-                if (tag == "GCG_TAG_NON_DISCOVERABLE") continue;
-                if (TcgConstants.Map.TryGetValue(tag, out var nation))
-                    infoParts.Add(nation);
-                else
-                    infoParts.Add(tag);
+                infoParts.Add(tagStr);
             }
 
             infoParts.Add(Util.CostStr(actionCard.playCost));            
@@ -43,13 +39,11 @@ namespace GenshinTcgMarkdown
             sb.AppendLine();
             sb.AppendLine(actionCard.description.Replace("\n", "<br>"));
 
-            var derivatives = ExtractDerivatives(versionData, actionCard.rawDescription);
-            foreach (var derivative in derivatives)
+            var derivativeIds = Util.ExtractDerivatives(versionData, actionCard.id);
+            foreach (var derivativeId in derivativeIds.Skip(1))
             {
-                var entityType = TcgConstants.Map.TryGetValue(derivative.type, out var dt) ? dt : derivative.type;
                 sb.AppendLine();
-                sb.AppendLine($"> **{derivative.name}** {entityType}");
-                sb.AppendLine($"> <br> {derivative.description.Replace("\n", "<br>")}");
+                sb.AppendLine(DerivativeToMarkdown.Convert(versionData, derivativeId));
             }
 
             return sb.ToString();

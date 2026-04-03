@@ -24,19 +24,8 @@ namespace GenshinTcgMarkdown
 
             sb.AppendLine($"# {character.name}");
             
-            var tags = new List<string>();
-            foreach (var tag in character.tags)
-            {
-                if (TcgConstants.Map.TryGetValue(tag, out var element))
-                    tags.Add(element);
-                else if (TcgConstants.Map.TryGetValue(tag, out var weapon))
-                    tags.Add(weapon);
-                else if (TcgConstants.Map.TryGetValue(tag, out var nation))
-                    tags.Add(nation);
-                else
-                    tags.Add(tag);
-            }
-            sb.AppendLine(string.Join(" ", tags));
+            var tagStr = Util.TagStr(character.tags);
+            sb.AppendLine(tagStr);
 
             sb.AppendLine();
             sb.AppendLine($"生命值：{character.hp}");
@@ -54,12 +43,10 @@ namespace GenshinTcgMarkdown
                 sb.AppendLine($"> **{skill.name}** {skillType} {costStr}<br>");
                 sb.AppendLine($"> {skill.description.Replace("\n", "<br>")}");
 
-                var derivatives = ExtractDerivatives(versionData, skill.rawDescription);
-                foreach (var derivative in derivatives)
+                var derivatives = Util.ExtractDerivatives(versionData, skill.id);
+                foreach (var derivative in derivatives.Skip(1))
                 {
-                    var entityType = TcgConstants.Map.TryGetValue(derivative.type, out var dt) ? dt : derivative.type;
-                    sb.AppendLine($"> > **{derivative.name}** {entityType}<br>");
-                    sb.AppendLine($"> > {derivative.description.Replace("\n", "<br>")}");
+                    sb.Append(DerivativeToMarkdown.Convert(versionData, derivative, 2));
                     sb.AppendLine($">");
                 }
                 sb.AppendLine("");
@@ -73,20 +60,17 @@ namespace GenshinTcgMarkdown
                 foreach (var talent in talents)
                 {
                     if (!talent.obtainable) continue;
-
-                    var talentTags = new List<string>();
-                    foreach (var tag in talent.tags)
-                    {
-                        if (TcgConstants.Map.TryGetValue(tag, out var tt))
-                            talentTags.Add(tt);
-                        else
-                            talentTags.Add(tag);
-                    }
-
+                    var talentTagStr = Util.TagStr(talent.tags);
                     var costStr = Util.CostStr(talent.playCost);
 
-                    sb.AppendLine($"> **{talent.name}** {string.Join(" ", talentTags)} {costStr}<br>");
+                    sb.AppendLine($"> **{talent.name}** {talentTagStr} {costStr}<br>");
                     sb.AppendLine($"> {talent.description.Replace("\n", "<br>")}");
+                    var derivatives = Util.ExtractDerivatives(versionData, talent.id);
+                    foreach (var derivative in derivatives.Skip(1))
+                    {
+                        sb.Append(DerivativeToMarkdown.Convert(versionData, derivative, 2));
+                        sb.AppendLine($">");
+                    }
                 }
             }
 

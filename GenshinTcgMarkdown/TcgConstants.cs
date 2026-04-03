@@ -77,7 +77,8 @@ namespace GenshinTcgMarkdown
             { "GCG_TAG_RESONANCE", "元素共鸣" },
             { "GCG_TAG_FOOD", "料理" },
             { "GCG_TAG_SLOWLY", "战斗行动" },
-            { "GCG_TAG_SUB_HURT", "减伤" },
+            { "GCG_TAG_SUB_HURT", "" },
+            { "GCG_TAG_NON_DISCOVERABLE", ""},
         };
     }
 }

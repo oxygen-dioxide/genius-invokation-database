@@ -19,5 +19,25 @@ namespace GenshinTcgMarkdown
             }
             return string.Join("", costParts);
         }
+
+        public static string TagStr(string[] tags)
+        {
+            return string.Join(
+                " ", 
+                tags
+                    .Select(tag => TcgConstants.Map.TryGetValue(tag, out var t) ? t : tag)
+                    .Where(t => !string.IsNullOrEmpty(t))
+            );
+        }
+
+        /// <summary>
+        /// 从描述中递归提取衍生物id，返回列表第一个元素为原始id，后续元素为衍生物id
+        /// </summary>
+        public static List<int> ExtractDerivatives(VersionData versionData, int id)
+        {
+            var extractor = new DerivativeExtractor();
+            extractor.Process(versionData, id);
+            return extractor.result;
+        }
     }
 }
