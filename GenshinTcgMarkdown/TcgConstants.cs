@@ -73,6 +73,7 @@ namespace GenshinTcgMarkdown
             { "GCG_TAG_PLACE", "场地" },
             { "GCG_TAG_ITEM", "道具" },
             { "GCG_TAG_CARD_BLESSING", "元素幻变" },
+            { "GCG_TAG_ADVENTURE_PLACE", "冒险地点" },
             { "GCG_TAG_LEGEND", "秘传" },
             { "GCG_TAG_RESONANCE", "元素共鸣" },
             { "GCG_TAG_FOOD", "料理" },

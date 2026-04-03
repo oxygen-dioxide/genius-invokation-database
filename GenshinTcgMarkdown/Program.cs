@@ -90,12 +90,19 @@ if (allVersionData.Count == 0)
 }
 
 var latestVersion = allVersionData.Last();
-var obtainableCharacters = latestVersion.Characters.Where(c => c.obtainable).ToList();
-var obtainableActionCards = latestVersion.ActionCards.Where(a => a.obtainable).ToList();
-
+var obtainableCharacters = latestVersion.Characters
+    .Where(c => c.obtainable)
+    .ToList();
+var obtainableActionCards = latestVersion.ActionCards
+    .Where(a => a.obtainable)
+    .ToList();
+var adventurePlaces = latestVersion.ActionCards
+    .Where(e => e.tags.Contains("GCG_TAG_ADVENTURE_PLACE"))
+    .ToList();
 Console.WriteLine($"Latest version: {latestVersion.Version}");
 Console.WriteLine($"Obtainable characters: {obtainableCharacters.Count}");
 Console.WriteLine($"Obtainable action cards: {obtainableActionCards.Count}");
+Console.WriteLine($"Adventure places: {adventurePlaces.Count}");
 
 Console.WriteLine("Processing character cards...");
 
@@ -169,7 +176,7 @@ Console.WriteLine($"Generated markdown for {obtainableCharacters.Count} characte
 
 Console.WriteLine("Processing action cards...");
 
-foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
+foreach (var actionCardId in obtainableActionCards.Concat(adventurePlaces).Select(a => a.id))
 {
     var prevMarkdown = "";
     var stringsToWrite = new string[allVersionData.Count];
@@ -223,7 +230,7 @@ foreach (var actionCardId in obtainableActionCards.Select(a => a.id))
     }
 }
 
-Console.WriteLine($"Generated markdown for {obtainableActionCards.Count} action cards");
+Console.WriteLine($"Generated markdown for {obtainableActionCards.Count + adventurePlaces.Count} action cards");
 
 Console.WriteLine("Generating index.md...");
 
@@ -235,6 +242,12 @@ foreach (var character in obtainableCharacters.OrderBy(c => c.id))
 
 indexContent += "\n## 行动牌\n";
 foreach (var actionCard in obtainableActionCards.OrderBy(a => a.id))
+{
+    indexContent += $"- [{actionCard.name}](action_cards/{actionCard.id}/{latestVersion.Version}.md)\n";
+}
+
+indexContent += "\n## 冒险地点\n";
+foreach (var actionCard in adventurePlaces.OrderBy(a => a.id))
 {
     indexContent += $"- [{actionCard.name}](action_cards/{actionCard.id}/{latestVersion.Version}.md)\n";
 }
