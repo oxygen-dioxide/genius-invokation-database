@@ -1,4 +1,5 @@
 using GenshinDB.Tcg;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -48,18 +49,7 @@ namespace GenshinTcgMarkdown
                 if (skill.hidden) continue;
 
                 var skillType = TcgConstants.Map.TryGetValue(skill.type, out var st) ? st : skill.type;
-                
-                var costParts = new List<string>();
-                if (skill.playCost != null)
-                {
-                    foreach (var cost in skill.playCost)
-                    {
-                        if (cost == null || cost.type == null) continue;
-                        var costType = TcgConstants.Map.TryGetValue(cost.type, out var ct) ? ct : cost.type;
-                        costParts.Add($"{cost.count}{costType}");
-                    }
-                }
-                var costStr = string.Join("", costParts);
+                var costStr = Util.CostStr(skill.playCost);
 
                 sb.AppendLine($"> **{skill.name}** {skillType} {costStr}<br>");
                 sb.AppendLine($"> {skill.description.Replace("\n", "<br>")}");
@@ -93,17 +83,7 @@ namespace GenshinTcgMarkdown
                             talentTags.Add(tag);
                     }
 
-                    var costParts = new List<string>();
-                    if (talent.playCost != null)
-                    {
-                        foreach (var cost in talent.playCost)
-                        {
-                            if (cost == null || cost.type == null) continue;
-                            var costType = TcgConstants.Map.TryGetValue(cost.type, out var ct) ? ct : cost.type;
-                            costParts.Add($"{cost.count}{costType}");
-                        }
-                    }
-                    var costStr = string.Join("", costParts);
+                    var costStr = Util.CostStr(talent.playCost);
 
                     sb.AppendLine($"> **{talent.name}** {string.Join(" ", talentTags)} {costStr}<br>");
                     sb.AppendLine($"> {talent.description.Replace("\n", "<br>")}");

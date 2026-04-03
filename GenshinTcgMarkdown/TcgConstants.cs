@@ -47,6 +47,7 @@ namespace GenshinTcgMarkdown
             { "GCG_TAG_NATION_SNEZHNAYA", "至冬" },
             { "GCG_TAG_NATION_SIMULANKA", "希穆兰卡" },
             { "GCG_TAG_NATION_NODKRAI", "挪德卡莱" },
+            { "GCG_TAG_NATION_COSMIC_CALAMITY", "寰宇劫灭"},
             { "GCG_TAG_CAMP_FATUI", "愚人众" },
             { "GCG_TAG_CAMP_MONSTER", "魔物" },
             { "GCG_TAG_CAMP_HILICHURL", "丘丘人" },

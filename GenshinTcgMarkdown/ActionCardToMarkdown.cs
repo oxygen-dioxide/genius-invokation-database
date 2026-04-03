@@ -36,17 +36,7 @@ namespace GenshinTcgMarkdown
                     infoParts.Add(tag);
             }
 
-            if (actionCard.playCost != null)
-            {
-                var costParts = new List<string>();
-                foreach (var cost in actionCard.playCost)
-                {
-                    if (cost == null || cost.type == null) continue;
-                    var costType = TcgConstants.Map.TryGetValue(cost.type, out var ctp) ? ctp : cost.type;
-                    costParts.Add($"{cost.count}{costType}");
-                }
-                infoParts.Add(string.Join("", costParts));
-            }
+            infoParts.Add(Util.CostStr(actionCard.playCost));            
 
             sb.AppendLine(string.Join(" ", infoParts));
 
