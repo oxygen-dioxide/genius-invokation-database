@@ -30,6 +30,7 @@ versions = [
     "6.3.0",
     "6.4.0",
     "6.5.0",
+    "6.6.0",
 ]
 types = ["characters", "action_cards", "entities", "keywords"]
 languages = ["CHS"]
