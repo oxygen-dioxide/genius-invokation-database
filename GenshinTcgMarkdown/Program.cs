@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using GenshinTcgMarkdown;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var inputFolder = "data";
 var outputFolder = "markdown";
@@ -19,6 +21,16 @@ List<string> versions = Directory.EnumerateDirectories(inputFolder)
 List<VersionData> allVersionData = new();
 
 Console.WriteLine($"Found {versions.Count} versions: {string.Join(", ", versions)}");
+
+var options = new JsonSerializerOptions 
+{ 
+    ReadCommentHandling = JsonCommentHandling.Skip,//支持json注释
+    AllowTrailingCommas = true // 顺便允许尾随逗号
+};
+string specialCasesPath = Path.Combine(inputFolder, "SpecialCases.jsonc");
+string specialCasesJson = File.ReadAllText(specialCasesPath);
+SpecialCases specialCases = System.Text.Json.JsonSerializer.Deserialize<SpecialCases>(specialCasesJson, options) 
+    ?? new SpecialCases();
 
 foreach (string version in versions)
 {
@@ -70,9 +82,9 @@ foreach (string version in versions)
             Characters = characters,
             Entities = entities,
             ActionCards = actionCards,
-            Keywords = keywords
+            Keywords = keywords,
+            specialCases = specialCases,
         };
-        
         versionData.BuildIdDictionary();
         allVersionData.Add(versionData);
         

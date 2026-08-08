@@ -9,6 +9,10 @@ namespace GenshinTcgMarkdown
         public List<int> result = new List<int>();
         Regex cRegex = new Regex(@"\$\[[CS](\d+)\]");
         Regex kRegex = new Regex(@"\$\[K(\d+)\]");
+
+        /// <summary>
+        /// 递归查找衍生物
+        /// </summary>
         public void Process(VersionData versionData, int id)
         {
             if(result.Contains(id))

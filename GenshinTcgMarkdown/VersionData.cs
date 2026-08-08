@@ -10,7 +10,11 @@ namespace GenshinTcgMarkdown
         public List<Keyword> Keywords { get; set; } = new();
         public Dictionary<int, TcgObject> IdToTcgObject { get; set; } = new();
         public Dictionary<int, List<ActionCard>> CharacterTalent { get; set; } = new();
+        //一些衍生物被引用时，不是引用的实体id，而是引用的关键词id
+        //KeywordIdMapping就是从关键词id到对应的实体id的映射，通过名称匹配
+        //当然有些实体和关键词名称相同，内容不同。在SpecialCases中手动排除
         public Dictionary<int, int> KeywordIdMapping { get; set; } = new();
+        public SpecialCases specialCases { get; set; } = new();
         
         public void BuildIdDictionary()
         {
@@ -48,7 +52,10 @@ namespace GenshinTcgMarkdown
             }
             foreach (var keyword in Keywords)
             {
-                if (NameToId.ContainsKey(keyword.name))
+                if (
+                    NameToId.ContainsKey(keyword.name) 
+                    && !specialCases.KeywordIdMappingIgnores.Contains(keyword.id)
+                )
                 {
                     KeywordIdMapping[keyword.id] = NameToId[keyword.name];
                 }
