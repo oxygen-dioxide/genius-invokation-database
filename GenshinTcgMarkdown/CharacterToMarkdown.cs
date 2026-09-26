@@ -71,6 +71,7 @@ namespace GenshinTcgMarkdown
                         sb.Append(DerivativeToMarkdown.Convert(versionData, derivative, 2));
                         sb.AppendLine($">");
                     }
+                    sb.AppendLine("");
                 }
             }
 

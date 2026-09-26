@@ -1368,7 +1368,7 @@
           "hidden": false,
           "keyMap": {
             "D__KEY__ELEMENT": "GCG_ELEMENT_ELECTRO",
-            "D__KEY__DAMAGE": 3
+            "D__KEY__DAMAGE": 5
           },
           "icon": "Skill_E_Razor_01_HD",
           "iconHash": "10713357091546558966"

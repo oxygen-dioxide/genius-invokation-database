@@ -1759,8 +1759,8 @@
           "name": "蒲公英之风",
           "englishName": "Dandelion Breeze",
           "type": "GCG_SKILL_TAG_Q",
-          "rawDescription": "治疗我方所有角色2点，召唤<color=#FFFFFFFF>$[C115021]</color>。",
-          "description": "治疗我方所有角色2点，召唤蒲公英领域。",
+          "rawDescription": "治疗所有我方角色2点，召唤<color=#FFFFFFFF>$[C115021]</color>。",
+          "description": "治疗所有我方角色2点，召唤蒲公英领域。",
           "playCost": [
             {
               "type": "GCG_COST_DICE_ANEMO",
